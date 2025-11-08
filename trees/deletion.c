@@ -46,21 +46,26 @@ struct Node *min(struct Node* root) {
 struct Node *deleteNode(struct Node *root, int value) {
     if(root == NULL)
         return NULL;
-    if(value < root->data) 
+    if(value < root->data) //traverse left side 
         root->left = deleteNode(root->left, value);
-    else if(value > root->data) 
+    else if(value > root->data) //traverse right side 
         root->right = deleteNode(root->right, value);
     else {
+        //case for leaf node and 1 child node (left)
         if(root->left == NULL) {
-            struct Node *temp = root->left;
-            free(root);
-            return temp;
-        } else if(root->right == NULL) {
             struct Node *temp = root->right;
             free(root);
             return temp;
         }
-        struct Node *temp = min(root->right);
+        //case for 1 child node (right); works for leaf node also but the first condition solves it anyway 
+        else if(root->right == NULL) {
+            struct Node *temp = root->left;
+            free(root);
+            return temp;
+        }
+        //case for 2 child nodes
+        //here we are basically taking the inorder successor of the deleted node when we traverse right subtree
+        struct Node *temp = min(root->right); //find the minimum value in the right subtree and replace it with deleted node
         root->data = temp->data;
         root->right = deleteNode(root->right, temp->data);
     }

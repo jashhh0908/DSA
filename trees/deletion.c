@@ -51,13 +51,13 @@ struct Node *deleteNode(struct Node *root, int value) {
     else if(value > root->data) //traverse right side 
         root->right = deleteNode(root->right, value);
     else {
-        //case for leaf node and 1 child node (left)
+        //case for leaf node and 1 child node (right)
         if(root->left == NULL) {
             struct Node *temp = root->right;
             free(root);
             return temp;
         }
-        //case for 1 child node (right); works for leaf node also but the first condition solves it anyway 
+        //case for 1 child node (left); works for leaf node also but the first condition solves it anyway 
         else if(root->right == NULL) {
             struct Node *temp = root->left;
             free(root);

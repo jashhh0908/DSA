@@ -15,7 +15,6 @@ void heapify(int arr[], int n, int i) {
     int left = i*2 + 1, right = i*2 + 2; 
     //1 - based indexing formulae are left = i*2, right = i*2 + 1
     //since practically arrays are 0-based we adjust for it by adding one 
-    //parent node doesn't need +1 as it is already adjusted for in buildHeap function
     if(left < n && arr[left] > arr[parent]) {
         parent = left;
     } 

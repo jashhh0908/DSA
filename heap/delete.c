@@ -1,0 +1,81 @@
+// IDK IF HEAP CODE IS THERE OR NOT, JUST DOING INCASE SO DONT COME AT ME
+
+#include<stdio.h>
+
+void swap(int *a, int *b) {
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+//main function
+void heapify(int arr[], int *n, int i) {  
+    int parent = i;
+    int left = i*2 + 1, right = i*2 + 2; 
+    if(left < *n && arr[left] > arr[parent]) {
+        parent = left;
+    } 
+    if(right < *n && arr[right] > arr[parent]) {
+        parent = right;
+    }
+    if(parent != i) {
+        swap(&arr[parent], &arr[i]);
+        heapify(arr, n, parent);
+    }
+}
+//main function
+void delete(int arr[], int *n, int x) {
+    int i;
+    for(i = 0; i < *n; i++) {
+        if(arr[i] == x)
+            break;
+    }
+    if(i == *n) {
+        printf("Node not found\n");
+        return;
+    }
+    //now i is the index to be deleted
+    arr[i] = arr[*n-1]; //move last node to index
+    (*n)--; 
+    int parent = (i-1)/2;
+    if(i > 0 && arr[i] > arr[parent]) {
+        while(i > 0 && arr[i] > arr[parent]) {
+            swap(&arr[i], &arr[parent]);
+            i = parent;
+            parent = (i-1)/2;
+        }
+    } else {
+        heapify(arr,n,i);
+    }
+}
+//helper function
+void buildHeap(int arr[], int *n) {
+    int i;
+    for(i = *n/2 - 1; i >= 0; i--) {
+        heapify(arr,n,i);
+    }
+}
+void display(int arr[], int n) {
+    printf("Max Heap: ");
+    for(int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+}
+int main() {
+    int n;
+    printf("Enter size of array: ");
+    scanf("%d", &n);
+    int arr[n];
+    int i;
+    printf("Enter elements of array: ");
+    for(i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+    buildHeap(arr,&n);
+    display(arr,n);
+    int x;
+    printf("\nEnter node to delete: ");
+    scanf("%d", &x);
+    delete(arr, &n, x);
+    display(arr,n);
+}

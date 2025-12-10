@@ -9,7 +9,7 @@ void swap(int *a, int *b) {
     *b = temp;
 }
 
-//this function compares one node with its child nodes at a time
+//this function compares one node with its child nodes at a time 
 void heapify(int arr[], int n, int i) {  
     int parent = i;
     int left = i*2 + 1, right = i*2 + 2; 
@@ -23,10 +23,11 @@ void heapify(int arr[], int n, int i) {
     }
     if(parent != i) {
         swap(&arr[parent], &arr[i]);
+        //if there is a swap, compare with lower child nodes (downward)
         heapify(arr, n, parent);
     }
 }
-//this function runs for every non-leaf node for the tree and heapifies down to up (max-heap) 
+//this function runs for every non-leaf node for the tree from down to up(max-heap) 
 // n/2 - 1 gives the starting non-leaf node 
 void buildHeap(int arr[], int n) {
     int i;

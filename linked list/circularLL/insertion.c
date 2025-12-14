@@ -68,17 +68,6 @@ struct Node *insertBetween(struct Node *head, int x, int pos) {
     return head;
 }
 
-int count(struct Node *head) {
-    if(head == NULL)
-        return 0;
-    struct Node *temp = head;
-    int count = 1; 
-    while(temp->next != head) {
-        count++;
-        temp = temp->next;
-    }
-    return count;
-}
 void display(struct Node *head) {
     if(head == NULL){
         printf("Empty list\n");
@@ -101,8 +90,6 @@ int main() {
     head = insertBeg(head, 3);
     head = insertBeg(head, 2);
     head = insertEnd(head, 6);
-    int n = count(head);
     head = insertBetween(head, 27, 1);
     display(head);
-    printf("%d", n);
 }

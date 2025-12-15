@@ -1,24 +1,33 @@
 #include<stdio.h>
 #define MAX 5
 int queue[MAX], front = -1, rear = -1;
+
+int isFull() {
+    return front == (rear + 1) % MAX;
+}
+int isEmpty() {
+    return front == -1;
+}
 void enqueue(int x) {
-    if((rear + 1) % MAX == front) {
+    if(isFull()) {
         printf("Queue is full\n");
         return;
     }
     if(front == -1) front = rear = 0;
-    else rear = (rear + 1) % MAX;
+    else if(rear == MAX - 1) rear = 0;
+    else rear++;
     queue[rear] = x;
 }
 
 int dequeue() {
-    if(front == -1) {
+    if(isEmpty()) {
         printf("Queue is empty\n");
         return -1;
     }
     int x = queue[front];
     if(front == rear) front = rear = -1;
-    else front = (front + 1) % MAX;
+    else if(front == MAX - 1) front = 0;
+    else front++; 
     return x;
 }
 

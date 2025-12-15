@@ -41,28 +41,25 @@ int search(struct Node *root, int key) {
         return 1;
 }
 int main() {
-    int nodes, value;
-    printf("Enter no of nodes: ");
+    int nodes, value, key;
+    struct Node* root = NULL;
+
+    printf("Enter number of nodes: ");
     scanf("%d", &nodes);
-    
-    printf("Enter root node: ");
-    scanf("%d", &value);
-    struct Node *root = create(value);
-    insert(root, value);
-    
-    printf("Enter child nodes: ");
-    for(int i = 0; i < nodes - 1; i++ ) {
+
+    printf("Enter nodes: ");
+    for (int i = 0; i < nodes; i++) {
         scanf("%d", &value);
-        insert(root, value);
+        root = insert(root, value);   // IMPORTANT
     }
-    
+
     printf("Enter node to search: ");
-    scanf("%d", &value);
-    int flag = search(root, value);
-    if(flag)
-        printf("Node found");
+    scanf("%d", &key);
+
+    if (search(root, key))
+        printf("Node found\n");
     else
-        printf("Node not found");
+        printf("Node not found\n");
+
     return 0;
 }
- 

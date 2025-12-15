@@ -73,27 +73,27 @@ struct Node *deleteNode(struct Node *root, int value) {
 }
 int main() {
     int nodes, value, del;
+    struct Node *root = NULL;
+
     printf("Enter no of nodes: ");
     scanf("%d", &nodes);
-    
-    printf("Enter root node: ");
-    scanf("%d", &value);
-    struct Node *root = create(value);
-    insert(root, value);
-    
-    printf("Enter child nodes: ");
-    for(int i = 0; i < nodes - 1; i++) {
+
+    printf("Enter nodes: ");
+    for(int i = 0; i < nodes; i++) {
         scanf("%d", &value);
-        insert(root, value);
+        root = insert(root, value);
     }
-    printf("Tree: ");
+
+    printf("Tree (Inorder): ");
     inorder(root);
 
-    printf("Enter node to delete: ");
+    printf("\nEnter node to delete: ");
     scanf("%d", &del);
-    deleteNode(root, del);
-    printf("Tree: ");
+
+    root = deleteNode(root, del);  
+
+    printf("Tree after deletion: ");
     inorder(root);
+
     return 0;
 }
- 

@@ -1,43 +1,28 @@
-#include<stdio.h>
+#include <stdio.h>
 
+void insertionSort(int a[], int n) {
+    int i, key, j;
 
-void display(int arr[], int n) {
-    for(int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
-
-void swap(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void insertionSort(int *a, int n) {
-    int i,j,key;
-    for(i = 1; i < n; i++) {
-        key = a[i];
+    for (i = 1; i < n; i++) {
+        key = a[i];        // element to be inserted
         j = i - 1;
-        while(j >= 0 && a[j] > key) {
-            swap(&a[j], &a[j + 1]);
+        // shift elements greater than key to the right
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
             j--;
         }
+        a[j + 1] = key;    // insert key at correct position
     }
 }
+
 int main() {
-    int n;
-    printf("Enter number of elements: ");   
-    scanf("%d", &n);
-    int arr[n];
-    printf("Enter %d elements: \n", n);
-    for(int i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-    }
-    printf("Array before sorting: \n");
-    display(arr, n);
-    insertionSort(arr, n);      
-    printf("Array after sorting: \n");
-    display(arr, n);
+    int a[] = {8, 3, 5, 2, 4};
+    int n = 5;
+
+    insertionSort(a, n);
+
+    for (int i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
     return 0;
 }

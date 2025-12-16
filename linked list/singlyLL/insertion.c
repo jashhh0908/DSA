@@ -45,12 +45,12 @@ struct Node *insertBetween(struct Node *head, int x, int pos) {
 
     for(int i = 1; i < pos; i++) {
         previous = current;
-        current = current->next;
         if(current == NULL) {
             printf("Out of bounds\n");
             free(newNode);
             return head;
         }
+        current = current->next;
     }
 
     newNode->next = current;
@@ -82,7 +82,7 @@ int main() {
     head = insertEnd(head, 4);
     head = insertEnd(head, 5);
 
-    head = insertBetween(head, 99, 3);   // insert at position 3
+    head = insertBetween(head, 99, 6);   // insert at position 3
 
     display(head);
 

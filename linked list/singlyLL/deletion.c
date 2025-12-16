@@ -57,6 +57,8 @@ struct Node *deleteInBetween(struct Node *head, int pos) {
             return head;
         }
     }
+    if(temp->next == NULL)   // deleting last node
+        return deleteEnd(head);
     prev->next = temp->next;
     free(temp);
     return head;

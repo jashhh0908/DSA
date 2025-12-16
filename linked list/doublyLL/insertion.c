@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 struct Node {
     int data;
     struct Node *prev;
@@ -10,101 +11,100 @@ struct Node *getNode() {
     return (struct Node*)malloc(sizeof(struct Node));
 }
 
-//main function 
-struct Node *create(struct Node *head, int val) {
-    if(head == NULL) {
-        head = getNode();
-        head->data = val;
-        head->next = head->prev = NULL;
-        return head;
-    }
+struct Node *insertBeg(struct Node *head, int val) {
     struct Node *newNode = getNode();
     newNode->data = val;
+    newNode->prev = NULL;
+    newNode->next = head;
+
+    if (head == NULL) {
+        head = newNode;
+        return head;
+    }
+    head->prev = newNode;
+    head = newNode;
+    return head;
+}
+
+struct Node *insertEnd(struct Node *head, int val) {
+    struct Node *newNode = getNode();
+    newNode->data = val;
+    newNode->next = NULL;
+    if (head == NULL) {
+        newNode->prev = NULL;
+        head = newNode;
+        return head;
+    }
     struct Node *temp = head;
-    while(temp->next != NULL) {
+    while (temp->next != NULL)
         temp = temp->next;
-    }   
+
     temp->next = newNode;
     newNode->prev = temp;
-    newNode->next = NULL;
     return head;
 }
 
-int nodeCount (struct Node *head) {
-    int c = 0;
-    struct Node *temp = head;
-    while(temp != NULL) {
-        temp = temp->next;
-        c++;
+struct Node *insertAtPos(struct Node *head, int val, int pos) {
+    if (pos == 1) {
+        return insertBeg(head, val);
     }
-    return c;
-}
 
-struct Node *insert(struct Node *head, int val, int pos, int n) {
+    struct Node *temp = head, *ptr = NULL;
+    for (int i = 1; i < pos; i++) {
+        ptr = temp;
+        if (temp == NULL) {
+            printf("Out of bounds\n");
+            return head;
+        }
+        temp = temp->next;
+    }
+    if (temp == NULL)
+        return insertEnd(head, val);
+
     struct Node *newNode = getNode();
     newNode->data = val;
-    if(pos == 1) {
-        newNode->next = head;
-        newNode->prev = NULL;
-        if(head != NULL)//if inserting into empty list, head->prev = newNode will give error hence separate condition 
-            head->prev = newNode;
-        head = newNode;
-    } else if (pos == n+1) {
-        struct Node *temp = head;
-        while(temp->next != NULL) {
-            temp = temp->next;
-        }
-        newNode->prev = temp;
-        temp->next = newNode;
-        newNode->next = NULL;
-    } else if(pos > n+1) {
-        printf("out of bounds\n");
-        return head;
-    } else {
-        int i;
-        struct Node *temp = head, *ptr = head;
-        for(i = 1; i < pos; i++) {
-            ptr = temp;
-            temp = temp->next;
-        }
-        temp->prev = newNode;
-        newNode->next = temp;
-        ptr->next = newNode;
-        newNode->prev = ptr;
-    }
+
+    newNode->next = temp;
+    newNode->prev = ptr;
+    ptr->next = newNode;
+    temp->prev = newNode;
+    
     return head;
 }
-void display(struct Node *head){
+
+void display(struct Node *head) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
     struct Node *temp = head;
-    while(temp != NULL) {
+    while (temp != NULL) {
         printf("%d ", temp->data);
         temp = temp->next;
     }
+    printf("\n");
 }
 
 int main() {
-    //user-input
     struct Node *head = NULL;
-    int val = 0;
-    while(val != -1) {
-        printf("enter a value (-1 to stop): ");
-        scanf("%d", &val);
-        if(val == -1)
-            break;
-        else {
-            head = create(head, val);
-        }
-    }
-    printf("Printing LL: "); 
+
+    head = insertEnd(head, 10);
+    head = insertEnd(head, 20);
+    head = insertEnd(head, 30);
+
+    printf("Initial DLL: ");
     display(head);
 
-    int n = nodeCount(head);
-    int pos;
-    printf("\nEnter value & position to insert: ");
-    scanf("%d %d", &val, &pos);
-    head = insert(head, val, pos, n);
-    printf("Printing LL: "); 
+    head = insertBeg(head, 5);
+    printf("After insertBeg(5): ");
     display(head);
 
+    head = insertAtPos(head, 15, 3);
+    printf("After insertAtPos(15, 3): ");
+    display(head);
+
+    head = insertEnd(head, 40);
+    printf("After insertEnd(40): ");
+    display(head);
     return 0;
 }

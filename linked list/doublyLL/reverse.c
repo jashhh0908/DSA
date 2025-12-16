@@ -12,16 +12,16 @@ struct Node *getNode() {
 }
 
 struct Node *reverse(struct Node *head) {
-    struct Node *temp = NULL, *current = head;
+    struct Node *temp = NULL, *current = head, *newHead;
     while(current != NULL) {
         temp = current->prev;
         current->prev = current->next;
         current->next = temp;
+
+        newHead = current;
         current = current->prev;
     }
-    if(temp != NULL)
-        head = temp->prev;
-    return head;
+    return newHead;
 }
 void display(struct Node *head) {
     printf("List: ");

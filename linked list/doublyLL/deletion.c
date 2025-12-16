@@ -29,15 +29,7 @@ struct Node *create(struct Node *head, int val) {
     return head;
 }
 
-int nodeCount (struct Node *head) {
-    int c = 0;
-    struct Node *temp = head;
-    while(temp != NULL) {
-        temp = temp->next;
-        c++;
-    }
-    return c;
-}
+
 
 //main functions
 struct Node *deleteStart(struct Node *head) {
@@ -73,15 +65,27 @@ struct Node *deleteEnd(struct Node *head) {
     return head;
 }
 
-struct Node *deleteMiddle(struct Node *head, int pos){
+struct Node *deleteAtPos(struct Node *head, int pos){
     if(head == NULL)
         return NULL;
     int i;
-    struct Node *ptr = head, *temp = head;
-    for(i = 1; i < pos; i++) {
+
+    if (pos == 1) {
+        head = deleteStart(head);
+        return head;
+    }
+    struct Node *temp = head, *ptr = NULL; 
+    for (int i = 1; i < pos; i++) {
         ptr = temp;
         temp = temp->next;
+        if (temp == NULL) {
+            printf("Out of bounds\n");
+            return head;
+        }
     }
+    if (temp->next == NULL)
+        return deleteEnd(head);
+    
     ptr->next = temp->next;
     temp->next->prev = ptr;
     free(temp);
@@ -104,35 +108,36 @@ void display(struct Node *head){
 
 int main() {
     struct Node *head = NULL;
-    int val = 0;
-    while(val != -1) {
-        printf("enter a value (-1 to stop): ");
-        scanf("%d", &val);
-        if(val == -1)
-            break;
-        else {
-            head = create(head, val);
-        }
-    }
-    printf("Printing LL: "); 
+    head = create(head, 10);
+    head = create(head, 20);
+    head = create(head, 30);
+    head = create(head, 40);
+
+    printf("Initial DLL: ");
     display(head);
 
-    int n = nodeCount(head);
-    int pos;
-    printf("\nEnter position to delete: ");
-    scanf("%d", &pos);
-    if(pos == 1) 
-        head = deleteStart(head);
-    else if(pos == n) {
-        head = deleteEnd(head);
-    } else if(pos > n) {
-        printf("Out of bounds");
-        return 0;
-    } else {
-        head = deleteMiddle(head, pos);
-    }
-    printf("Printing LL: "); 
+    // 1. Delete middle (pos = 3)
+    head = deleteAtPos(head, 4);
+    printf("\nAfter deleting pos 4: ");
     display(head);
+
+    // 2. Delete beginning
+    head = deleteAtPos(head, 1);
+    printf("\nAfter deleting beginning: ");
+    display(head);
+
+    // 3. Delete end
+    head = deleteAtPos(head, 2);
+    printf("\nAfter deleting end: ");
+    display(head);
+
+    // 4. Delete last node
+    head = deleteAtPos(head, 1);
+    printf("\nAfter deleting last node: ");
+    display(head);
+
+    // 5. Out of bounds
+    head = deleteAtPos(head, 1);
 
     return 0;
 }

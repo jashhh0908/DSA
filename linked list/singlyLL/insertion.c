@@ -36,22 +36,23 @@ struct Node *insertEnd(struct Node *head, int x) {
 struct Node *insertBetween(struct Node *head, int x, int pos) {
     if(pos == 1)
         return insertBeg(head, x);
-
-    struct Node *newNode = getNode();
-    newNode->data = x;
-    newNode->next = NULL;
-
+        
     struct Node *current = head, *previous = NULL;
 
     for(int i = 1; i < pos; i++) {
         previous = current;
         if(current == NULL) {
             printf("Out of bounds\n");
-            free(newNode);
             return head;
         }
         current = current->next;
     }
+    if(current == NULL) 
+        return insertEnd(head, x);
+
+    struct Node *newNode = getNode();
+    newNode->data = x;
+    newNode->next = NULL;
 
     newNode->next = current;
     previous->next = newNode;

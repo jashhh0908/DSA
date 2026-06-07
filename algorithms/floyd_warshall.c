@@ -62,7 +62,7 @@ void main()
             if(i == j) {
                 pi[i][j] = -1;
             }
-            else if(dist[i][j] != 0) {
+            else if(dist[i][j] != INF) {
                 pi[i][j] = i;
             }
             else {

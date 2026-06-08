@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<conio.h>
-#define V 5
+#define V 4
 
-int G[V][V] = {
+int G[V+1][V+1] = {
 	{0, 0, 0, 0, 0},
 	{0, 0, 1, 1, 1},
 	{0, 1, 0, 1, 0},
@@ -10,12 +10,12 @@ int G[V][V] = {
 	{0, 1, 0, 1, 0}
 };
 
-int x[V];
+int x[V+1];
 
 void NextValue(int k) {
 	int j;
 	while(1) {
-		x[k] = (x[k] + 1) % (V);
+		x[k] = (x[k] + 1) % (V+1);
 		if(x[k] == 0)
 			return;
 		if(G[x[k-1]][x[k]] != 0) {
@@ -24,10 +24,10 @@ void NextValue(int k) {
 					break;
 			}
 			if(j == k) {
-				if(k < V - 1) {
+				if(k < V) {
 					return;
 				}
-				if(G[x[V-1]][x[1]] != 0) {
+				if(G[x[V]][x[1]] != 0) {
 					return;
 				}
 			}
@@ -41,9 +41,9 @@ void Hamiltonian_Cycle(int k) {
 		NextValue(k);
 		if(x[k] == 0)
 			return;
-		if(k == V-1) {
+		if(k == V) {
 			printf("Hamiltonian Cycle: ");
-			for(i = 1; i < V; i++) {
+			for(i = 1; i <= V; i++) {
 				printf("%d ", x[i]);
 			}
 			printf("%d\n",x[1]);
@@ -55,7 +55,7 @@ void Hamiltonian_Cycle(int k) {
 
 void main() {
 	clrscr();
-	x[1] = 1;
+	x[1] = 2;
 	Hamiltonian_Cycle(2);
 	getch();
 }

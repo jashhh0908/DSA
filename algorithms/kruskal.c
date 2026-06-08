@@ -25,7 +25,7 @@ void main() {
 	};
 
 	struct Edge edges[E], temp;
-	int i, j, minCost = 0, count = 0, edgeCount = 0;
+	int i, j, minCost = 0, count = 0, edgeCount = 0, minIndex;
 	int uRoot, vRoot;
 	clrscr();
 	//initialize parent array
@@ -45,14 +45,17 @@ void main() {
 	}
 	//sort edge list
 	for(i = 0; i < E-1; i++) {
-		for(j = 0; j < E-i-1; j++) {
-			if(edges[j].w > edges[j+1].w) {
-				 temp = edges[j];
-				 edges[j] = edges[j+1];
-				 edges[j+1] = temp;
+		minIndex = i;
+		for(j = i+1; j < E; j++) {
+			if(edges[j].w < edges[minIndex].w) {
+				minIndex = j;
 			}
 		}
+		temp = edges[i];
+		edges[i] = edges[minIndex];
+		edges[minIndex] = temp;
 	}
+
 	//print sorted edge list
 	for(i = 0; i < E; i++) {
 		printf("%d --> %d = %d\n", edges[i].u, edges[i].v, edges[i].w);
